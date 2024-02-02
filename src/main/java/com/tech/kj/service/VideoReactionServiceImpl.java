@@ -22,7 +22,7 @@ public class VideoReactionServiceImpl implements VideoReactionService{
     private final VideoReactionRepository videoReactionRepository;
     private final VideoReactionMapper mapper;
     @Override
-    public Long save(VideoReactionRequestDto request) {
+    public String save(VideoReactionRequestDto request) {
         log.info("invoked save method with "+request);
         VideoReactionEntity saveEntity= videoReactionRepository.save(mapper.dtoToEntity(request));
         log.info("video reaction saved with id: {}",saveEntity.getId());
@@ -32,15 +32,17 @@ public class VideoReactionServiceImpl implements VideoReactionService{
     @Override
     public List<VideoReactionRequestDto> getLikeDisLikeReactionByVideoId(String videoId,Integer pageNumber,Integer pageSize) {
         log.info("invoked getLikeDisLikeReactionByVideoId with param videoId: {}, pageNumber: {}, pageSize: {}",videoId,pageNumber,pageSize);
-        List<VideoReactionRequestDto> responsePageRecord;
+        List<VideoReactionRequestDto> responsePageRecord= null;
         if(!Objects.isNull(pageNumber) && !Objects.isNull(pageSize)){
-            Page<VideoReactionEntity>  pageRecord = videoReactionRepository.getLikeDisLikeReactionByVideoId(videoId, PageRequest.of(pageNumber,pageSize));
-            responsePageRecord=  pageRecord.stream().map(mapper::entityToDto).collect(Collectors.toList());
+            Page<VideoReactionEntity> pageRecord = videoReactionRepository.getLikeDisLikeReactionByVideoId(videoId, PageRequest.of(pageNumber,pageSize));
+            responsePageRecord = pageRecord.stream().map(mapper::entityToDto).collect(Collectors.toList());
         }else{
-            List<VideoReactionEntity> records = videoReactionRepository.getLikeDisLikeReactionByVideoId(videoId);
-            responsePageRecord=  records.stream().map(mapper::entityToDto).collect(Collectors.toList());
+            List<VideoReactionEntity>  record = videoReactionRepository.getLikeDisLikeReactionByVideoId(videoId);
+            responsePageRecord =  record.stream().map(mapper::entityToDto).collect(Collectors.toList());
         }
         log.info("returning list of like and deslike response from reposiotry: {} ",responsePageRecord);
         return responsePageRecord;
     }
+
+
 }

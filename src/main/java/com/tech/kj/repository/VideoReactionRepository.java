@@ -9,13 +9,10 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface VideoReactionRepository extends JpaRepository<VideoReactionEntity,Long> {
-
+public interface VideoReactionRepository extends JpaRepository<VideoReactionEntity,String> {
     @Query("select vr from VideoReactionEntity vr where vr.videoId=:videoId")
     public Page<VideoReactionEntity> getLikeDisLikeReactionByVideoId(@Param("videoId") String videoId, Pageable pageable);
 
     @Query("select vr from VideoReactionEntity vr where vr.videoId=:videoId")
     public List<VideoReactionEntity> getLikeDisLikeReactionByVideoId(@Param("videoId") String videoId);
-
-
 }

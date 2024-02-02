@@ -20,7 +20,7 @@ public class VideoLikeDislikeController {
     @PostMapping
     public ResponseEntity saveLikeDisLikeReaction(@RequestBody VideoReactionRequestDto requestDto){
         log.info("post api invoked to store the like and dislike: {}",requestDto);
-        long savedId = videoReactionService.save(requestDto);
+        String savedId = videoReactionService.save(requestDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
     @GetMapping("/{videoId}")
