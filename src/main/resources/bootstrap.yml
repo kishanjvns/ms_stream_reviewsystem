@@ -1,0 +1,9 @@
+eureka:
+  client:
+    healthcheck:
+      enabled: true
+    serviceUrl: http://localhost:8761/eureka
+  instance:
+    preferIpAddress: true
+    healthCheckUrlPath: ${server.servletPath}/actuator/health
+    statusPageUrlPath: ${server.servletPath}/actuator/info
